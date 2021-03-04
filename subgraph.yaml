@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,11 +6,11 @@ dataSources:
     name: Contract
     network: mainnet
     source:
-      address: "0x5caf454ba92e6f2c929df14667ee360ed9fd5b26"
+      address: "0x02d107567020bCE1Eb524D80C44f899Fa9993E5f"
       abi: Contract
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Approval
@@ -21,12 +21,10 @@ dataSources:
         - name: Contract
           file: ./abis/Contract.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,uint256)
-          handler: handleApproval
-        - event: MinterAdded(indexed address)
-          handler: handleMinterAdded
-        - event: MinterRemoved(indexed address)
-          handler: handleMinterRemoved
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
+        - event: Authenticate(indexed address,address,address,string,string)
+          handler: handleIncubatorAuthenticate
+        - event: Finish(indexed address,uint256,string,uint256,address,uint256,string)
+          handler: handleIncubatorFinish
+        - event: Twitter(string,string,string,string)
+          handler: handleIncubatorTwitter
       file: ./src/mapping.ts

@@ -1,73 +1,41 @@
-import { BigInt } from "@graphprotocol/graph-ts"
-import {
-  Contract,
-  Approval,
-  MinterAdded,
-  MinterRemoved,
-  Transfer
-} from "../generated/Contract/Contract"
-import { ExampleEntity } from "../generated/schema"
+import { Authenticate, Finish, Twitter } from "../generated/Contract/Contract"
+import { IncubatorAuthenticate, IncubatorFinish, IncubatorTwitter } from "../generated/schema"
 
-export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
+export function handleIncubatorAuthenticate(event: Authenticate): void {
+  let entity = IncubatorAuthenticate.load(event.transaction.from.toHex())
   if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+    entity = new IncubatorAuthenticate(event.transaction.from.toHex())
   }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
+  entity.market = event.params._market
+  entity.property = event.params._property
+  entity.githubRepository = event.params._githubRepository
 
-  // Entity fields can be set based on event parameters
-  entity.owner = event.params.owner
-  entity.spender = event.params.spender
-
-  // Entities can be written to the store with `.save()`
   entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.allowance(...)
-  // - contract.approve(...)
-  // - contract.balanceOf(...)
-  // - contract.configAddress(...)
-  // - contract.decimals(...)
-  // - contract.decreaseAllowance(...)
-  // - contract.deposit(...)
-  // - contract.depositFrom(...)
-  // - contract.fee(...)
-  // - contract.increaseAllowance(...)
-  // - contract.isMinter(...)
-  // - contract.mint(...)
-  // - contract.name(...)
-  // - contract.symbol(...)
-  // - contract.totalSupply(...)
-  // - contract.transfer(...)
-  // - contract.transferFrom(...)
 }
 
-export function handleMinterAdded(event: MinterAdded): void {}
+export function handleIncubatorFinish(event: Finish): void {
+  let entity = IncubatorFinish.load(event.transaction.from.toHex())
+  if (entity == null) {
+    entity = new IncubatorFinish(event.transaction.from.toHex())
+  }
 
-export function handleMinterRemoved(event: MinterRemoved): void {}
+  entity.account = event.params._account
+  entity.githubRepository = event.params._githubRepository
+  entity.Reword = event.params._reword
+  entity.Status = event.params._status
 
-export function handleTransfer(event: Transfer): void {}
+  entity.save()
+}
+
+export function handleIncubatorTwitter(event: Twitter): void {
+  let entity = IncubatorTwitter.load(event.transaction.from.toHex())
+  if (entity == null) {
+    entity = new IncubatorTwitter(event.transaction.from.toHex())
+  }
+
+  entity.TwitterId = event.params._twitterId
+  entity.githubRepository = event.params._githubRepository
+
+  entity.save()
+}

@@ -1,6 +1,20 @@
-type ExampleEntity @entity {
+type IncubatorAuthenticate @entity {
   id: ID!
-  count: BigInt!
-  owner: Bytes! # address
-  spender: Bytes! # address
+  market: Bytes! # address
+  property: Bytes! # address
+  githubRepository: String
+}
+
+type IncubatorFinish @entity {
+  id: ID!
+  account: Bytes! # address
+  githubRepository: String
+  Status: Int
+  Reword: BigInt
+}
+
+type IncubatorTwitter @entity {
+  id: ID!
+  TwitterId: String
+  githubRepository: String
 }
