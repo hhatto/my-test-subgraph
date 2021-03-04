@@ -10,7 +10,7 @@ type IncubatorFinish @entity {
   account: Bytes! # address
   githubRepository: String
   Status: Int
-  Reword: BigInt
+  Reward: BigInt
 }
 
 type IncubatorTwitter @entity {

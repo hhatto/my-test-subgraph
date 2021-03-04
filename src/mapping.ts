@@ -22,7 +22,7 @@ export function handleIncubatorFinish(event: Finish): void {
 
   entity.account = event.params._account
   entity.githubRepository = event.params._githubRepository
-  entity.Reword = event.params._reword
+  entity.Reward = event.params._reward
   entity.Status = event.params._status
 
   entity.save()
