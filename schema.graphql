@@ -9,7 +9,7 @@ type IncubatorFinish @entity {
   id: ID!
   account: Bytes! # address
   githubRepository: String
-  Status: Int
+  Status: BigInt
   Reward: BigInt
 }
 

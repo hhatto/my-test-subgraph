@@ -140,13 +140,21 @@ export class IncubatorFinish extends Entity {
     }
   }
 
-  get Status(): i32 {
+  get Status(): BigInt | null {
     let value = this.get("Status");
-    return value.toI32();
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set Status(value: i32) {
-    this.set("Status", Value.fromI32(value));
+  set Status(value: BigInt | null) {
+    if (value === null) {
+      this.unset("Status");
+    } else {
+      this.set("Status", Value.fromBigInt(value as BigInt));
+    }
   }
 
   get Reward(): BigInt | null {
